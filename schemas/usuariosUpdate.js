@@ -9,7 +9,7 @@ let generosPermitidos = {
     message: '{VALUE} no es un genero válido'
 }
 
-let usuariosSchema = new Schema({
+let usuariosUpdateSchema = new Schema({
 
     nombre: {
         type: String,
@@ -41,8 +41,7 @@ let usuariosSchema = new Schema({
     },
     password: {
         type: String,
-        required: [true, 'La contraseña es obligatoria'],
-        hide: true
+        required: [true, 'La contraseña es obligatoria']
     },
     img: {
         type: String,
@@ -60,13 +59,12 @@ let usuariosSchema = new Schema({
     }
 
 });
+usuariosUpdateSchema.plugin(mongooseHidden); // se le pasa el plugin al schema para que funcione
 
-usuariosSchema.plugin(mongooseHidden); // se le pasa el plugin al schema para que funcione
-
-usuariosSchema.plugin(uniqueValidator, {
+usuariosUpdateSchema.plugin(uniqueValidator, {
 
     message: '{PATH} debe ser unico' // se pasa el plugin al schema junto con el path que es el campo que genera el error y el mensaje 
 
 })
 
-module.exports = mongoose.model('usuariosupdate', usuariosSchema); // exportamos el schema para poderlo usar donde lo llamemos
+module.exports = mongoose.model('usuarios', usuariosUpdateSchema); // exportamos el schema para poderlo usar donde lo llamemos
