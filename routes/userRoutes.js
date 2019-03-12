@@ -46,7 +46,7 @@ app.put('/actualizarUsuario/:id', function(req, res) {
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'segundoNombre', 'apellido', 'segundoApellido', 'password', 'img', 'genero']);
 
-    let usuarioUpdateBody = Usuarioupdate({
+    let usuarioUpdateBody = Usuario({
 
         nombre: body.nombre,
         segundoNombre: body.segundoNombre,
@@ -55,7 +55,9 @@ app.put('/actualizarUsuario/:id', function(req, res) {
         password: bcrypt.hashSync(body.password, 10)
 
     });
-    // console.log(id);
+    let userObjec = usuarioUpdateBody.toObject();
+    delete userObjec._id;
+
     //para regresar el usuario actualizado
     let options = {
 
@@ -63,7 +65,7 @@ app.put('/actualizarUsuario/:id', function(req, res) {
         runValidators: true
 
     }
-    Usuarioupdate.findByIdAndUpdate(id, usuarioUpdateBody, options, (err, usuarioDB) => {
+    Usuario.findByIdAndUpdate(id, userObjec, options, (err, usuarioDB) => {
 
         if (err) {
             return res.status(400).json({
@@ -86,7 +88,7 @@ app.post('/login', (req, res) => {
 
     let body = req.body;
 
-    Usuarioupdate.findOne({ email: body.email }, (err, usuarioDB) => {
+    Usuario.findOne({ email: body.email }, (err, usuarioDB) => {
 
         if (err) {
 
@@ -120,7 +122,7 @@ app.post('/login', (req, res) => {
                 ok: false,
                 err: {
 
-                    message: "Usuario o contraseña incorrectos"
+                    message: "Usuario o (contraseña) incorrectos"
                 }
             })
         }

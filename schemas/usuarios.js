@@ -41,8 +41,7 @@ let usuariosSchema = new Schema({
     },
     password: {
         type: String,
-        required: [true, 'La contraseña es obligatoria'],
-        hide: true
+        required: [true, 'La contraseña es obligatoria']
     },
     img: {
         type: String,
@@ -61,7 +60,16 @@ let usuariosSchema = new Schema({
 
 });
 
-usuariosSchema.plugin(mongooseHidden); // se le pasa el plugin al schema para que funcione
+usuariosSchema.methods.toJSON = function() {
+
+    let user = this;
+    let userObject = user.toObject();
+    delete userObject.password;
+
+    return userObject;
+}
+
+// usuariosSchema.plugin(mongooseHidden); // se le pasa el plugin al schema para que funcione
 
 usuariosSchema.plugin(uniqueValidator, {
 
@@ -69,4 +77,4 @@ usuariosSchema.plugin(uniqueValidator, {
 
 })
 
-module.exports = mongoose.model('usuariosupdate', usuariosSchema); // exportamos el schema para poderlo usar donde lo llamemos
+module.exports = mongoose.model('Usuarios', usuariosSchema); // exportamos el schema para poderlo usar donde lo llamemos

@@ -67,4 +67,4 @@ usuariosUpdateSchema.plugin(uniqueValidator, {
 
 })
 
-module.exports = mongoose.model('usuarios', usuariosUpdateSchema); // exportamos el schema para poderlo usar donde lo llamemos
+module.exports = mongoose.model('usuariosupdate', usuariosUpdateSchema); // exportamos el schema para poderlo usar donde lo llamemos
